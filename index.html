@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luanne & Pierre · Belle-Île-en-Mer</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --cream: #f9f6f1;
+  --beige: #ede8df;
+  --sand: #c8b89a;
+  --dark: #2a2520;
+  --muted: #7a6f65;
+  --border: rgba(42,37,32,0.1);
+  --white: #ffffff;
+}
+body { background: var(--cream); color: var(--dark); font-family: 'Inter', sans-serif; font-weight: 300; min-height: 100vh; }
+
+/* COVER */
+#page-cover { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; padding: 0; }
+.cover-bg { animation: super8 6s ease-in-out infinite; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(20,15,10,0.1) 0%, rgba(20,15,10,0.65) 100%), url('cover.jpg') center center/cover no-repeat; }
+.cover-content { position: relative; text-align: center; color: white; padding: 0 1.5rem; margin-top: 0; }
+.cover-content h1 { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(4rem, 11vw, 8rem); letter-spacing: 0.1em; line-height: 1.05; margin-bottom: 0.7rem; }
+.cover-content p { font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; opacity: 0.78; margin-bottom: 2.8rem; }
+@keyframes super8 {
+  0%   { opacity: 1; filter: sepia(0.15) contrast(1.05) brightness(1); transform: scale(1) translate(0,0); }
+  10%  { opacity: 0.93; filter: sepia(0.25) contrast(1.12) brightness(0.96); transform: scale(1.002) translate(-0.3px, 0.5px); }
+  20%  { opacity: 1; filter: sepia(0.1) contrast(1.04) brightness(1.02); transform: scale(1) translate(0.2px,-0.3px); }
+  30%  { opacity: 0.96; filter: sepia(0.2) contrast(1.08) brightness(0.98); transform: scale(1.001) translate(0,0); }
+  40%  { opacity: 1; filter: sepia(0.12) contrast(1.06) brightness(1.01); transform: scale(1) translate(-0.2px,0.2px); }
+  55%  { opacity: 0.97; filter: sepia(0.18) contrast(1.1) brightness(0.97); transform: scale(1.002) translate(0.3px,0); }
+  70%  { opacity: 1; filter: sepia(0.08) contrast(1.03) brightness(1.02); transform: scale(1) translate(0,0); }
+  85%  { opacity: 0.95; filter: sepia(0.22) contrast(1.09) brightness(0.96); transform: scale(1.001) translate(-0.2px,0.4px); }
+  100% { opacity: 1; filter: sepia(0.15) contrast(1.05) brightness(1); transform: scale(1) translate(0,0); }
+}
+@keyframes grain {
+  0%, 100% { background-position: 0% 0%; }
+  10% { background-position: 15% 30%; }
+  20% { background-position: 80% 10%; }
+  30% { background-position: 40% 70%; }
+  40% { background-position: 90% 50%; }
+  50% { background-position: 20% 85%; }
+  60% { background-position: 70% 20%; }
+  70% { background-position: 5% 60%; }
+  80% { background-position: 55% 90%; }
+  90% { background-position: 35% 15%; }
+}
+.cover-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.055;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  animation: grain 0.12s steps(1) infinite;
+}
+.cover-scratch {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  animation: scratchMove 8s linear infinite;
+}
+
+@keyframes scratchMove {
+  0%   { opacity: 0; }
+  2%   { opacity: 0.06; }
+  4%   { opacity: 0; }
+  47%  { opacity: 0; }
+  48%  { opacity: 0.04; }
+  50%  { opacity: 0; }
+  100% { opacity: 0; }
+}
+.cover-btn { display: inline-flex; align-items: center; justify-content: center; position: relative; overflow: hidden; height: 46px; padding: 0 40px; border: 1px solid rgba(255,255,255,0.55); color: white; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; background: rgba(255,255,255,0.08); backdrop-filter: blur(6px); border-radius: 2px; transition: background 0.3s; }
+.cover-btn:hover { background: rgba(255,255,255,0.2); }
+.cover-tagline { font-size: 13px; line-height: 1.75; opacity: 0.72; font-style: italic; margin-bottom: 2.2rem; letter-spacing: 0.04em; }
+.cover-date { margin-bottom: 1.2rem; }
+
+/* NAME */
+#page-name { display: none; min-height: 100vh; align-items: center; justify-content: center; padding: 2rem; }
+.name-card { background: var(--white); border: 0.5px solid var(--border); border-radius: 4px; padding: 3rem 2.5rem; max-width: 420px; width: 100%; text-align: center; }
+.name-card h2 { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 2rem; margin-bottom: 0.5rem; }
+.name-card p { font-size: 13px; color: var(--muted); margin-bottom: 2rem; line-height: 1.6; }
+.name-input { width: 100%; padding: 12px 16px; border: 0.5px solid var(--sand); border-radius: 2px; background: var(--cream); font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 300; color: var(--dark); outline: none; margin-bottom: 1rem; transition: border-color 0.2s; }
+.name-input:focus { border-color: var(--dark); }
+.name-btn { width: 100%; padding: 13px; background: var(--dark); color: white; border: none; border-radius: 2px; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 400; letter-spacing: 0.16em; text-transform: uppercase; cursor: pointer; transition: opacity 0.2s; }
+.name-btn:hover { opacity: 0.8; }
+
+/* APP */
+#page-app { display: none; }
+.app-header { display: flex; align-items: center; justify-content: space-between; padding: 1.1rem 1.5rem; border-bottom: 0.5px solid var(--border); background: var(--white); position: sticky; top: 0; z-index: 10; }
+.app-header-title { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 1.25rem; letter-spacing: 0.06em; }
+.app-header-name { font-size: 12px; color: var(--muted); }
+.tabs { display: flex; border-bottom: 0.5px solid var(--border); background: var(--white); }
+.tab { flex: 1; text-align: center; padding: 13px 12px; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); cursor: pointer; border-bottom: 1.5px solid transparent; margin-bottom: -0.5px; transition: color 0.2s; }
+.tab.active { color: var(--dark); border-bottom-color: var(--dark); }
+.container { padding: 1.5rem; max-width: 1000px; margin: 0 auto; }
+
+/* UPLOAD */
+.upload-zone { border: 1px dashed var(--sand); border-radius: 4px; padding: 3rem 1.5rem; text-align: center; cursor: pointer; background: var(--beige); transition: background 0.2s; margin-bottom: 1rem; }
+.upload-zone:hover, .upload-zone.drag { background: #e3dcd2; }
+.upload-icon { width: 38px; height: 38px; stroke: var(--muted); display: block; margin: 0 auto 14px; fill: none; stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; }
+.upload-zone p { font-size: 14px; color: var(--dark); margin-bottom: 5px; }
+.upload-zone span { font-size: 12px; color: var(--muted); }
+#file-input { display: none; }
+.status { text-align: center; font-size: 13px; color: var(--muted); font-style: italic; min-height: 20px; margin: 0.8rem 0; }
+.progress-bar { height: 2px; background: var(--beige); border-radius: 1px; overflow: hidden; display: none; margin-bottom: 0.5rem; }
+.progress-fill { height: 100%; background: var(--sand); border-radius: 1px; transition: width 0.3s; width: 0%; }
+
+/* GALLERY TOOLBAR */
+.gallery-toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; gap: 8px; flex-wrap: wrap; }
+.gallery-count { font-size: 12px; color: var(--muted); letter-spacing: 0.04em; flex-shrink: 0; }
+.toolbar-right { display: flex; align-items: center; gap: 8px; }
+
+/* FILTRES */
+.filters { display: flex; gap: 4px; }
+.filter-btn { padding: 7px 14px; border: 0.5px solid var(--border); border-radius: 2px; background: var(--white); color: var(--muted); font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+.filter-btn:hover { background: var(--beige); color: var(--dark); }
+.filter-btn.active { background: var(--dark); color: var(--white); border-color: var(--dark); }
+
+.dl-all-btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border: 0.5px solid var(--border); border-radius: 2px; background: var(--white); color: var(--dark); font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: background 0.15s; white-space: nowrap; }
+.dl-all-btn:hover { background: var(--beige); }
+.dl-all-btn svg { width: 13px; height: 13px; stroke: var(--dark); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+
+/* GALLERY */
+.gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 6px; }
+.gallery-item { aspect-ratio: 1; overflow: hidden; border-radius: 3px; background: var(--beige); cursor: pointer; position: relative; }
+.gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.35s; }
+.gallery-item:hover img { transform: scale(1.04); }
+.item-author { position: absolute; bottom: 0; left: 0; right: 0; padding: 22px 8px 8px; background: linear-gradient(to top, rgba(20,15,10,0.68), transparent); font-size: 11px; color: rgba(255,255,255,0.9); letter-spacing: 0.04em; opacity: 0; transition: opacity 0.2s; }
+.gallery-item:hover .item-author { opacity: 1; }
+.play-badge { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 40px; height: 40px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(3px); }
+.play-badge svg { width: 16px; height: 16px; fill: white; stroke: none; margin-left: 2px; }
+.spinner { width: 22px; height: 22px; border: 1.5px solid var(--beige); border-top-color: var(--sand); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 3rem auto; display: none; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.empty { text-align: center; padding: 4rem 2rem; color: var(--muted); font-size: 14px; font-style: italic; display: none; }
+
+/* LIGHTBOX */
+.lightbox { display: none; position: fixed; inset: 0; background: rgba(15,12,9,0.94); z-index: 200; align-items: center; justify-content: center; flex-direction: column; }
+.lightbox.open { display: flex; }
+#lightbox-content img, #lightbox-content video { max-width: 92vw; max-height: 78vh; object-fit: contain; border-radius: 2px; display: block; }
+.lightbox-meta { margin-top: 14px; font-size: 12px; color: rgba(255,255,255,0.45); letter-spacing: 0.08em; text-align: center; }
+.lightbox-actions { display: flex; gap: 10px; margin-top: 16px; }
+.lb-btn { padding: 10px 24px; border-radius: 2px; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; text-decoration: none; display: flex; align-items: center; gap: 6px; transition: background 0.15s; }
+.lb-btn svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.lb-btn-dl { background: rgba(255,255,255,0.1); border: 0.5px solid rgba(255,255,255,0.28); color: white; }
+.lb-btn-dl:hover { background: rgba(255,255,255,0.2); }
+.lb-btn-close { background: transparent; border: 0.5px solid rgba(255,255,255,0.16); color: rgba(255,255,255,0.55); }
+.lb-btn-close:hover { color: white; border-color: rgba(255,255,255,0.4); }
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  .app-header { padding: 1rem; }
+  .container { padding: 1rem; }
+  .gallery-grid { grid-template-columns: repeat(3, 1fr); gap: 3px; }
+  .item-author { opacity: 1; }
+  .name-card { padding: 2rem 1.5rem; }
+  #lightbox-content img, #lightbox-content video { max-width: 100vw; max-height: 70vh; border-radius: 0; }
+  .lightbox-actions { flex-direction: column; align-items: center; width: 100%; padding: 0 1.5rem; }
+  .lb-btn { justify-content: center; }
+  .lb-btn-dl { width: 100%; }
+  .gallery-toolbar { gap: 8px; }
+  .toolbar-right { flex-wrap: wrap; justify-content: flex-end; }
+  .filter-btn { padding: 6px 10px; font-size: 10px; }
+  .dl-all-btn { padding: 6px 10px; font-size: 10px; }
+}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div id="page-cover">
+  <div class="cover-bg"></div>
+  <div class="cover-grain"></div>
+  <div class="cover-scratch"></div>
+  <div class="cover-content">
+    <h1>Luanne<br>&amp; Pierre</h1>
+    <p>Belle-Île-en-Mer &nbsp;·&nbsp; 20 juin 2026</p>
+    <div class="cover-btn" onclick="showNamePage()">Accéder à l'album</div>
+  </div>
+</div>
+
+<!-- PRÉNOM -->
+<div id="page-name" style="display:none; min-height:100vh; align-items:center; justify-content:center; padding:2rem;">
+  <div class="name-card">
+    <h2>Bienvenue</h2>
+    <p>Pour partager vos photos et voir celles des autres invités, dites-nous qui vous êtes.</p>
+    <input class="name-input" id="name-input" type="text" placeholder="Votre prénom" maxlength="40" autocomplete="off">
+    <button class="name-btn" onclick="submitName()">Continuer</button>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="page-app">
+  <div class="app-header">
+    <span class="app-header-title">Luanne &amp; Pierre</span>
+    <span class="app-header-name" id="header-name"></span>
+  </div>
+  <div class="tabs">
+    <div class="tab active" id="tab-btn-upload" onclick="switchTab('upload')">Partager</div>
+    <div class="tab" id="tab-btn-gallery" onclick="switchTab('gallery')">Galerie <span id="count-badge" style="font-size:10px;color:var(--muted);margin-left:2px;"></span></div>
+  </div>
+  <div class="container">
+
+    <!-- UPLOAD -->
+    <div id="tab-upload">
+      <div class="upload-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
+        <svg class="upload-icon" viewBox="0 0 24 24">
+          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+          <polyline points="17 8 12 3 7 8"/>
+          <line x1="12" y1="3" x2="12" y2="15"/>
+        </svg>
+        <p>Appuyez pour choisir vos photos et vidéos</p>
+        <span>JPG, PNG, HEIC, MP4, MOV · Plusieurs fichiers acceptés</span>
+      </div>
+      <input type="file" id="file-input" multiple accept="image/*,video/*">
+      <div id="upload-status" class="status"></div>
+      <div class="progress-bar" id="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+    </div>
+
+    <!-- GALLERY -->
+    <div id="tab-gallery" style="display:none;">
+      <div class="gallery-toolbar">
+        <span class="gallery-count" id="gallery-count"></span>
+        <div class="toolbar-right">
+          <div class="filters">
+            <button class="filter-btn active" onclick="setFilter('all', this)">Tout</button>
+            <button class="filter-btn" onclick="setFilter('image', this)">Photos</button>
+            <button class="filter-btn" onclick="setFilter('video', this)">Vidéos</button>
+          </div>
+          <button class="dl-all-btn" onclick="downloadAll()">
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Tout télécharger
+          </button>
+        </div>
+      </div>
+      <div class="spinner" id="spinner"></div>
+      <div class="gallery-grid" id="gallery-grid"></div>
+      <div class="empty" id="empty-msg">Aucune photo pour l'instant — soyez le premier à partager.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <div id="lightbox-content" onclick="event.stopPropagation()"></div>
+  <div class="lightbox-meta" id="lightbox-meta"></div>
+  <div class="lightbox-actions">
+    <a id="lb-dl" class="lb-btn lb-btn-dl" download onclick="event.stopPropagation()">
+      <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Télécharger
+    </a>
+    <button class="lb-btn lb-btn-close" onclick="closeLightbox()">Fermer</button>
+  </div>
+</div>
+
+<script>
+const CLOUD = 'drwafd40e';
+const PRESET = 'mariage';
+const FOLDER = 'mariage';
+let userName = '';
+let allMedia = [];
+let currentFilter = 'all';
+
+function showNamePage() {
+  document.getElementById('page-cover').style.display = 'none';
+  const np = document.getElementById('page-name');
+  np.style.display = 'flex';
+  setTimeout(() => document.getElementById('name-input').focus(), 100);
+}
+
+document.getElementById('name-input').addEventListener('keydown', e => { if (e.key === 'Enter') submitName(); });
+
+function submitName() {
+  const val = document.getElementById('name-input').value.trim();
+  if (!val) { document.getElementById('name-input').style.borderColor = '#c0392b'; return; }
+  userName = val;
+  document.getElementById('page-name').style.display = 'none';
+  document.getElementById('page-app').style.display = 'block';
+  document.getElementById('header-name').textContent = userName;
+}
+
+function switchTab(tab) {
+  ['upload','gallery'].forEach(t => {
+    document.getElementById('tab-' + t).style.display = t === tab ? 'block' : 'none';
+    document.getElementById('tab-btn-' + t).classList.toggle('active', t === tab);
+  });
+  if (tab === 'gallery') loadGallery();
+}
+
+const fileInput = document.getElementById('file-input');
+const dropZone = document.getElementById('drop-zone');
+const statusEl = document.getElementById('upload-status');
+const progressBar = document.getElementById('progress-bar');
+const progressFill = document.getElementById('progress-fill');
+
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag'));
+dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.classList.remove('drag'); handleFiles(e.dataTransfer.files); });
+fileInput.addEventListener('change', () => handleFiles(fileInput.files));
+
+// Stockage local des médias uploadés
+function getStoredMedia() {
+  try { return JSON.parse(localStorage.getItem('mariage_media') || '[]'); } catch(e) { return []; }
+}
+function saveMedia(item) {
+  const media = getStoredMedia();
+  media.unshift(item);
+  localStorage.setItem('mariage_media', JSON.stringify(media));
+}
+
+async function handleFiles(files) {
+  if (!files.length) return;
+  const MAX_IMAGE = 10 * 1024 * 1024;  // 10 MB
+  const MAX_VIDEO = 100 * 1024 * 1024; // 100 MB
+  const skipped = [];
+  const valid = Array.from(files).filter(f => {
+    const isVideo = f.type.startsWith('video');
+    const limit = isVideo ? MAX_VIDEO : MAX_IMAGE;
+    if (f.size > limit) { skipped.push(f.name + ' (' + (isVideo ? '100 Mo max pour les vidéos' : '10 Mo max pour les photos') + ')'); return false; }
+    return true;
+  });
+  if (skipped.length) {
+    statusEl.textContent = '⚠️ Fichier(s) trop lourds ignorés : ' + skipped.join(', ');
+    if (!valid.length) return;
+  }
+  const total = valid.length;
+  let done = 0;
+  progressBar.style.display = 'block';
+  for (const file of valid) {
+    statusEl.textContent = 'Envoi de ' + file.name + '…';
+    const fd = new FormData();
+    fd.append('file', file);
+    fd.append('upload_preset', PRESET);
+    fd.append('folder', FOLDER);
+    fd.append('context', 'author=' + encodeURIComponent(userName));
+    fd.append('tags', 'mariage');
+    const kind = file.type.startsWith('video') ? 'video' : 'image';
+    try {
+      const res = await fetch('https://api.cloudinary.com/v1_1/' + CLOUD + '/' + kind + '/upload', { method: 'POST', body: fd });
+      const data = await res.json();
+      if (data.public_id) {
+        const url = kind === 'image'
+          ? 'https://res.cloudinary.com/' + CLOUD + '/image/upload/' + data.public_id + '.jpg'
+          : 'https://res.cloudinary.com/' + CLOUD + '/video/upload/' + data.public_id + '.mp4';
+        const thumb = kind === 'image'
+          ? 'https://res.cloudinary.com/' + CLOUD + '/image/upload/w_400,c_fill,q_auto/' + data.public_id + '.jpg'
+          : 'https://res.cloudinary.com/' + CLOUD + '/video/upload/w_400,c_fill,so_2/' + data.public_id + '.jpg';
+        saveMedia({ url, thumb, kind, author: userName, public_id: data.public_id, created_at: new Date().toISOString() });
+        done++;
+      }
+      progressFill.style.width = (done / total * 100) + '%';
+    } catch(e) { statusEl.textContent = 'Erreur sur ' + file.name; }
+  }
+  progressBar.style.display = 'none';
+  progressFill.style.width = '0%';
+  statusEl.textContent = '✓ ' + done + ' fichier' + (done > 1 ? 's' : '') + ' partagé' + (done > 1 ? 's' : '') + ' avec succès.';
+  fileInput.value = '';
+}
+
+async function loadGallery() {
+  const spinner = document.getElementById('spinner');
+  const grid = document.getElementById('gallery-grid');
+  const empty = document.getElementById('empty-msg');
+  spinner.style.display = 'block';
+  grid.innerHTML = '';
+  empty.style.display = 'none';
+
+  try {
+    const [imgRes, vidRes] = await Promise.all([
+      fetch('https://res.cloudinary.com/' + CLOUD + '/image/list/mariage.json'),
+      fetch('https://res.cloudinary.com/' + CLOUD + '/video/list/mariage.json')
+    ]);
+    const imgData = imgRes.ok ? await imgRes.json().catch(() => ({})) : {};
+    const vidData = vidRes.ok ? await vidRes.json().catch(() => ({})) : {};
+    const images = (imgData.resources || []).map(r => ({
+      url: 'https://res.cloudinary.com/' + CLOUD + '/image/upload/' + r.public_id + '.jpg',
+      thumb: 'https://res.cloudinary.com/' + CLOUD + '/image/upload/w_400,c_fill,q_auto/' + r.public_id + '.jpg',
+      kind: 'image',
+      author: r.author || (r.context && r.context.custom && r.context.custom.author) || '',
+      created_at: r.created_at
+    }));
+    const videos = (vidData.resources || []).map(r => ({
+      url: 'https://res.cloudinary.com/' + CLOUD + '/video/upload/' + r.public_id + '.mp4',
+      thumb: 'https://res.cloudinary.com/' + CLOUD + '/video/upload/w_400,c_fill,so_2/' + r.public_id + '.jpg',
+      kind: 'video',
+      author: r.author || (r.context && r.context.custom && r.context.custom.author) || '',
+      created_at: r.created_at
+    }));
+    const remote = [...images, ...videos].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+    const local = getStoredMedia();
+    const remoteUrls = new Set(remote.map(m => m.url));
+    const localOnly = local.filter(m => !remoteUrls.has(m.url));
+    allMedia = [...remote, ...localOnly];
+  } catch(e) {
+    allMedia = getStoredMedia();
+  }
+
+  spinner.style.display = 'none';
+  renderGallery();
+}
+
+function setFilter(filter, btn) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderGallery();
+}
+
+function renderGallery() {
+  const grid = document.getElementById('gallery-grid');
+  const empty = document.getElementById('empty-msg');
+  grid.innerHTML = '';
+  empty.style.display = 'none';
+  const filtered = currentFilter === 'all' ? allMedia : allMedia.filter(r => r.kind === currentFilter);
+  const n = filtered.length;
+  const total = allMedia.length;
+  document.getElementById('count-badge').textContent = total ? '(' + total + ')' : '';
+  document.getElementById('gallery-count').textContent = n ? n + ' souvenir' + (n > 1 ? 's' : '') : '';
+  if (!n) { empty.style.display = 'block'; return; }
+  filtered.forEach(r => {
+    const author = r.author || (r.context && r.context.custom && r.context.custom.author) || '';
+    const item = document.createElement('div');
+    item.className = 'gallery-item';
+    if (r.kind === 'image') {
+      const thumb = 'https://res.cloudinary.com/' + CLOUD + '/image/upload/w_400,c_fill,q_auto/' + r.public_id + '.jpg';
+      const full = 'https://res.cloudinary.com/' + CLOUD + '/image/upload/' + r.public_id + '.jpg';
+      item.innerHTML = '<img src="' + thumb + '" loading="lazy" alt="Photo">' + (author ? '<div class="item-author">' + author + '</div>' : '');
+      item.onclick = () => openLightbox('image', full, author);
+    } else {
+      const thumb = 'https://res.cloudinary.com/' + CLOUD + '/video/upload/w_400,c_fill,so_2/' + r.public_id + '.jpg';
+      const full = 'https://res.cloudinary.com/' + CLOUD + '/video/upload/' + r.public_id + '.mp4';
+      item.innerHTML = '<img src="' + thumb + '" loading="lazy" alt="Vidéo"><div class="play-badge"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>' + (author ? '<div class="item-author">' + author + '</div>' : '');
+      item.onclick = () => openLightbox('video', full, author);
+    }
+    grid.appendChild(item);
+  });
+}
+
+function openLightbox(type, url, author) {
+  const content = document.getElementById('lightbox-content');
+  content.innerHTML = type === 'image'
+    ? '<img src="' + url + '" alt="Photo">'
+    : '<video src="' + url + '" controls autoplay></video>';
+  document.getElementById('lightbox-meta').textContent = author ? 'Partagé par ' + author : '';
+  const dl = document.getElementById('lb-dl');
+  dl.href = url;
+  dl.download = type === 'image' ? 'mariage-luanne-pierre.jpg' : 'mariage-luanne-pierre.mp4';
+  document.getElementById('lightbox').classList.add('open');
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.getElementById('lightbox-content').innerHTML = '';
+}
+
+document.getElementById('lightbox').addEventListener('click', function(e) { if (e.target === this) closeLightbox(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+async function downloadAll() {
+  const toDownload = currentFilter === 'all' ? allMedia : allMedia.filter(r => r.kind === currentFilter);
+  if (!toDownload.length) return;
+  const btn = document.querySelector('.dl-all-btn');
+  const originalHTML = btn.innerHTML;
+  for (let i = 0; i < toDownload.length; i++) {
+    const r = toDownload[i];
+    const url = r.kind === 'image'
+      ? 'https://res.cloudinary.com/' + CLOUD + '/image/upload/' + r.public_id + '.jpg'
+      : 'https://res.cloudinary.com/' + CLOUD + '/video/upload/' + r.public_id + '.mp4';
+    const ext = r.kind === 'image' ? 'jpg' : 'mp4';
+    btn.textContent = (i + 1) + ' / ' + toDownload.length;
+    try {
+      const blob = await fetch(url).then(r => r.blob());
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'mariage-' + (i + 1) + '.' + ext;
+      a.click();
+      URL.revokeObjectURL(a.href);
+      await new Promise(r => setTimeout(r, 400));
+    } catch(e) {}
+  }
+  btn.innerHTML = originalHTML;
+}
+</script>
+</body>
+</html>
