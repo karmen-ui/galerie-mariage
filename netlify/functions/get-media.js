@@ -1,7 +1,12 @@
 exports.handler = async function() {
   const CLOUD = 'drwafd40e';
   const API_KEY = '844983247748924';
-  const API_SECRET = 'YzK0UgCNy7HD7Fb_E3nnrYOMFl4';
+  const API_SECRET = process.env.CLOUDINARY_API_SECRET;
+
+  if (!API_SECRET) {
+    return { statusCode: 500, body: JSON.stringify({ error: 'API Secret manquant' }) };
+  }
+
   const auth = Buffer.from(API_KEY + ':' + API_SECRET).toString('base64');
 
   async function fetchResources(type) {
