@@ -11,7 +11,7 @@ exports.handler = async function() {
 
   function fetchRes(type) {
     return fetch(
-      'https://api.cloudinary.com/v1_1/' + CLOUD + '/resources/' + type + '?max_results=500',
+      'https://api.cloudinary.com/v1_1/' + CLOUD + '/resources/' + type + '?prefix=mariage/&type=upload&max_results=500',
       { headers: { Authorization: 'Basic ' + auth } }
     ).then(function(r) { return r.json(); }).then(function(data) {
       return (data.resources || []).map(function(r) {
