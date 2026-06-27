@@ -1,40 +1,40 @@
-exports.handler = async function() {
+exports.handler = fonction asynchrone() {
   const CLOUD = 'drwafd40e';
   const API_KEY = '844983247748924';
   const API_SECRET = process.env.CLOUDINARY_API_SECRET;
 
-  if (!API_SECRET) {
-    return { statusCode: 500, body: JSON.stringify({ error: 'API Secret manquant' }) };
+  si (!API_SECRET) {
+    return { statusCode: 500, body: JSON.stringify({ error: 'Clé secrète de l'API manquante' }) };
   }
 
   const auth = Buffer.from(API_KEY + ':' + API_SECRET).toString('base64');
 
-  async function fetchResources(type) {
+  fonction asynchrone fetchResources(type) {
     const res = await fetch(
-      `https://api.cloudinary.com/v1_1/${CLOUD}/resources/${type}?prefix=mariage/&max_results=500`,
+      `https://api.cloudinary.com/v1_1/${CLOUD}/resources/${type}?max_results=500`,
       { headers: { Authorization: 'Basic ' + auth } }
     );
     const data = await res.json();
-    return (data.resources || []).map(r => ({
+    retourner (data.resources || []).map(r => ({
       public_id: r.public_id,
-      kind: type === 'image' ? 'image' : 'video',
-      created_at: r.created_at,
-      context: r.context || {}
+      type : type === 'image' ? 'image' : 'vidéo',
+      créé_à : r.créé_à,
+      contexte : r.contexte || {}
     }));
   }
 
-  try {
-    const [images, videos] = await Promise.all([
-      fetchResources('image'),
-      fetchResources('video')
+  essayer {
+    const [images, vidéos] = await Promise.all([
+      récupérerRessources('image'),
+      récupérerRessources('vidéo')
     ]);
     const all = [...images, ...videos].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-    return {
-      statusCode: 200,
-      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
-      body: JSON.stringify(all)
+    retour {
+      code d'état : 200,
+      en-têtes : { 'Content-Type' : 'application/json', 'Access-Control-Allow-Origin' : '*' },
+      corps : JSON.stringify(all)
     };
-  } catch(e) {
+  } attraper(e) {
     return { statusCode: 500, body: JSON.stringify({ error: e.message }) };
   }
 };
